@@ -48,6 +48,59 @@ Kubernetes is a tool for automating deployment, scaling, and management of conta
   6. A Load Balancer serves the outside resquests into An Ingress Controller
   7. An Ingress Controller (ingress-nginx) is a Pod with a set of routing rules to distribute traffic to other Pods through Cluster IP Services inside the Cluster
 
-### Skaffold
+## Skaffold
 
 Skaffold is a command line tool that saves developers time by automating most of the development workflow in Kubernetes from source to deployment in an extensible way
+
+## App Overview
+
+- Users can list a ticket for an event (concert, sports) for sale
+- Other users can purchase this ticket
+- Any user can list tickets for sale and purchase tickets
+- When a user attempts to purchase a ticket, the ticket is locked for 15 minutes. The user has 15 minutes to enter their payment information
+- While locked, no other user can purchase the ticket. After 15 minutes, the ticket should 'unlock'
+- Ticket prices can be edited if they are not locked
+
+Resource Types
+
+- User (email: string, password: string)
+- Ticket (title: string, price: number, userId: userRef, orderId: orderRef)
+- Order (status: enum, expiresAt: date, userId: userRef, ticketId: ticketRef)
+- Charge (stripeId: string, amount: number, stripeRefundId: string, status: enum, orderId: orderRef)
+
+Service Types (feature-based design)
+
+- authentication
+- tickets
+- orders
+- expiration
+- payments
+
+Events
+
+- User: UserCreated, UserUpdated
+- Order: OrderCreated, OrderCancelled, OrderExpired,
+- Ticket: TicketCreated, TicketUpdated
+- Charge: ChargeCreated
+
+Architecture Design
+
+- A React client app (nextJS)
+- Five services (node, express, mongoDB, redis)
+- A shared common library (npm module)
+- An Event bus (node-nats-streaming)
+
+## Note
+
+1. "/etc/hosts": set "127.0.0.1 ticketing.dev"
+2. "~/.zshrc": set 'alias k="kubectl"'
+3. Ingress-nginx: is a webserver trying to use secure https connection trying to use 'self sign certificates' => Chrome does not trust that kind of certificates -> type "thisisunsafe" to Chrome to get over the error
+4. Install GCloud SDK to set up kubernetes contexts: gcloud container clusters get-credentials cluster-1:
+   - step 1: enable google cloud build
+   - step 2: update the skaffold.yaml file to google cloud build
+   - step 3: setup ingress nginx on google cloud cluster
+   - step 4: update hosts file to point to the remote cluster
+   - step 5: restart skaffold
+5. Browsers and Postman have different ways to handle cookie & send cookie's data back to the server. Supertest server does not manage cookie automatically & it uses http (not https)
+6. NextJS getInitialProps func can be executed on the client (using Axios) or server (using Kubernetes to reach out to ingress-nginx)
+7. Mongoose has built-in Database Transaction for handling transaction issues
