@@ -92,15 +92,27 @@ Architecture Design
 
 ## Note
 
-1. "/etc/hosts": set "127.0.0.1 ticketing.dev"
-2. "~/.zshrc": set 'alias k="kubectl"'
-3. Ingress-nginx: is a webserver trying to use secure https connection trying to use 'self sign certificates' => Chrome does not trust that kind of certificates -> type "thisisunsafe" to Chrome to get over the error
-4. Install GCloud SDK to set up kubernetes contexts: gcloud container clusters get-credentials cluster-1:
-   - step 1: enable google cloud build
-   - step 2: update the skaffold.yaml file to google cloud build
-   - step 3: setup ingress nginx on google cloud cluster
-   - step 4: update hosts file to point to the remote cluster
-   - step 5: restart skaffold
-5. Browsers and Postman have different ways to handle cookie & send cookie's data back to the server. Supertest server does not manage cookie automatically & it uses http (not https)
+- Due to the complexity around user validation, it is necessary to move some of the the middlewares code to a common package that will eventually be pushed into npm `@keitickets/common`
+
+- TypeScript uses a file called tsconfig.json for managing your project’s options, such as which files you want to include, and what sorts of checking you want to perform `tsc --init`
+
+- Securely store secrets with Kubernetes: run `kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf`
+
+- Mongodb-memory-server package is a copy of Mongo in memory. This package helps us to test multiple databases at the same time. We can test different services concurringly on the same machine
+
+## General Information
+
+1. "/etc/hosts": set `127.0.0.1 ticketing.dev`
+2. "~/.zshrc": set `alias k="kubectl"`
+3. Ingress-nginx is a webserver trying to use secure https connection trying to use 'self sign certificates'. However, Chrome does not trust that kind of certificates so type "thisisunsafe" to Chrome to get over the error
+4. Browsers and Postman have different ways to handle cookie & send cookie's data back to the server. Supertest server does not manage cookie automatically & it uses http (not https)
+5. Install GCloud SDK to set up kubernetes contexts `gcloud container clusters get-credentials cluster-1`
+
+- step 1: enable google cloud build
+- step 2: update the skaffold.yaml file to google cloud build
+- step 3: setup ingress nginx on google cloud cluster
+- step 4: update hosts file to point to the remote cluster
+- step 5: restart skaffold
+
 6. NextJS getInitialProps func can be executed on the client (using Axios) or server (using Kubernetes to reach out to ingress-nginx)
 7. Mongoose has built-in Database Transaction for handling transaction issues
