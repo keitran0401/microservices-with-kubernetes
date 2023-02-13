@@ -100,6 +100,10 @@ Architecture Design
 
 - Mongodb-memory-server package is a copy of Mongo in memory. This package helps us to test multiple databases at the same time. We can test different services concurringly on the same machine
 
+- Cross namespace communication in Kubernetes:
+  - `kubectl get namespace` to get the namespace
+  - `kubectl get services -n [nameOfNamespaceAbove]` to tell the service to fetch data from other namespace
+
 ## General Information
 
 1. "/etc/hosts": set `127.0.0.1 ticketing.dev`
