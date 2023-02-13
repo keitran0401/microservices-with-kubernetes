@@ -1,5 +1,5 @@
 import express from 'express';
-import { currentUser } from '@keitickets/common';
+import { currentUser } from '@kei-tickets/common';
 
 const router = express.Router();
 
