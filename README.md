@@ -92,7 +92,7 @@ Architecture Design
 
 ## Note
 
-- Due to the complexity around user validation, it is necessary to move some of the the middlewares code to a common package that will eventually be pushed into npm `@keitickets/common`
+- Due to the complexity around user validation, it is necessary to move some of the the middlewares code to a common package that will eventually be pushed into npm `@kei-tickets/common`
 
 - TypeScript uses a file called tsconfig.json for managing your project’s options, such as which files you want to include, and what sorts of checking you want to perform `tsc --init`
 
