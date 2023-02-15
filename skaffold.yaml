@@ -1,0 +1,29 @@
+apiVersion: skaffold/v4beta2
+kind: Config
+metadata:
+  name: microservices-with-kubernetes
+build:
+  artifacts:
+    - image: keitran0401/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+    - image: keitran0401/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - infra/k8s/auth-depl.yaml
+    - infra/k8s/auth-mongo-depl.yaml
+    - infra/k8s/client-depl.yaml
+    - infra/k8s/expiration-depl.yaml
+    - infra/k8s/expiration-redis-depl.yaml
+    - infra/k8s/ingress-srv.yaml
+    - infra/k8s/nats-depl.yaml
+    - infra/k8s/orders-depl.yaml
+    - infra/k8s/orders-mongo-depl.yaml
+    - infra/k8s/payments-depl.yaml
+    - infra/k8s/payments-mongo-depl.yaml
+    - infra/k8s/tickets-depl.yaml
+    - infra/k8s/tickets-mongo-depl.yaml
